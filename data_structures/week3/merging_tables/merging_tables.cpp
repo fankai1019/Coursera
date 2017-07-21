@@ -42,7 +42,7 @@ struct DisjointSets {
 		if (realDestination != realSource) {
 			// merge two components
 			// use union by rank heuristic
-                        // update max_table_size
+            // update max_table_size
             sets[realSource].parent = realDestination; 
             sets[realDestination].size += sets[realSource].size;
             sets[realSource].size = 0;
