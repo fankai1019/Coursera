@@ -1,4 +1,6 @@
 #include<iostream>
+#include<queue>
+#include<algorithm>
 #include<vector>
 #include<cassert>
 using namespace std;
@@ -13,6 +15,20 @@ struct Node{
     Node* right;
 
 };
+
+int height(Node* root){
+    if(root == nullptr)
+        return 0;
+    else
+        return 1+max(height(root->right), height(root->left));
+}
+
+int treesize(Node* root){
+    if(root == nullptr)
+        return 0;
+    else
+        return 1+treesize(root->right)+treesize(root->left);
+}
 
 Node* find(int key, Node* root){
     if(root->key == key)
@@ -137,6 +153,22 @@ void inorder(Node* root){
     inorder(root->right);
 }
 
+void breathfirst(Node* root){
+    queue<Node*> NodeQueue;
+    NodeQueue.push(root);
+    while(!NodeQueue.empty()){
+        Node* temp = NodeQueue.front();
+        NodeQueue.pop();
+        cout<<temp->key<<" ";
+        if(temp->left!=nullptr)
+            NodeQueue.push(temp->left);
+        if(temp->right!=nullptr)
+            NodeQueue.push(temp->right);
+    }
+    cout<<endl;
+
+}
+
 int rangeSum(int l, int r, Node* root){
     int sum = 0;
     Node* node;
@@ -168,5 +200,15 @@ int main(){
     remove(find(2,&root));
     inorder(&root);
     cout<<endl;
+    insert(2, &root);
+    insert(5, &root);
+    insert(7,&root);
+    inorder(&root);
+    cout<<endl;
+    breathfirst(&root);
+    cout<<endl;
+    cout<<"The height of the tree is: "<<height(&root)<<endl;
+    cout<<"The size of the tree is: "<<treesize(&root)<<endl;
+
     return 0;
 }
