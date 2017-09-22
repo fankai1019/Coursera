@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 class pq{
@@ -8,6 +9,7 @@ class pq{
     int parent(int i){ return (i+1)/2-1;}
     int left(int i){return i*2+1;}
     int right(int i){return (i+1)*2;}
+    
     void swap(int &a, int &b){
         int temp;
         temp = a;
@@ -40,10 +42,46 @@ class pq{
             return;
     }
 
+
+    void buildHeap(){
+        for(int i = size/2; i>=0; --i)
+            siftdown(i);
+
+    }
+
 public:
     pq():size(0), capacity(0), ptr(nullptr){}
+    pq(const vector<int>& a):size(a.size()), capacity(a.size()){
+        ptr = new int[a.size()];
+        for(int i=0; i<size; ++i)
+            ptr[i] = a[i];
+    }
     ~pq(){delete[] ptr;}
 
+    void clear(){
+        delete[] ptr;
+        size = 0;
+        capacity = 0;
+    }
+    
+    void Sort(vector<int> &arr){
+        clear();
+        for(int i=0; i < arr.size(); ++i)
+            insert(arr[i]);
+        for(int i=0; i< arr.size(); ++i)
+            arr[i] = extractMax();
+    }
+
+    void inPlaceSort(){
+        buildHeap();
+        int n = size;
+        for(int i = 1; i<n; ++i){
+            swap(ptr[0], ptr[size-1]);
+            size--;
+            siftdown(0);
+        }
+        size = n;
+    }
     int getMax(){
         if(size==0)
             throw "No elements in the heap.";
@@ -115,9 +153,24 @@ int main(){
         heap.print();
         cout<<heap.extractMax()<<endl;
         heap.print();
+        cout<<"let's do a heap sort:"<<endl;
+        vector<int> a = {9,2,1,7,2,3,10};
+        for(const auto& i:a)
+            cout<<i<<" ";
+        cout<<endl;
+        heap.Sort(a);
+        for(const auto& i:a)
+            cout<<i<<" ";
+        cout<<endl;
+        cout<<"let's do an in-place sort:"<<endl;
+        vector<int> b = {9,2,1,7,2,3,10};
+        pq heap2(b);
+        heap2.inPlaceSort();
+        heap2.print();
         cout<<"Test exceptions:"<<endl;
         pq heapempty;
         heapempty.extractMax();
+
     }catch(const char* m){
         cout<<m<<endl;
     }
