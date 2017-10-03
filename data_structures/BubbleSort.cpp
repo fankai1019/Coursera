@@ -17,6 +17,5 @@ int main(){
     BubbleSort(ivec);
     for_each(ivec.begin(), ivec.end(), [](int x){cout<<x<<" ";});
     cout<<endl;
-
     return 0;
 }
