@@ -20,7 +20,7 @@ struct StringPtrCompare2{
 };
 
 int main(){
-    // the default value of the second parameter bellow is std::less() which will delegate to operator<. We can also pass a functor class here.
+    // the default value of the second parameter bellow is std::less() which will delegate to operator<. We can also pass a functor class here.please bear in mind that we can't pass function here as it requires a comparison type not function.
     set<string*, StringPtrCompare> ssp;
     ssp.insert(new string("Anteater"));
     ssp.insert(new string("Wombat"));
